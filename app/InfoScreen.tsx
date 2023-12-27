@@ -1,15 +1,12 @@
-import { SafeAreaView, StyleSheet, Text } from 'react-native'
+import { SafeAreaView, Text } from 'react-native'
 import React from 'react'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { InfoProps } from '../interfaces/NavigationInterfaces'
 import { styles } from '../styles/styles'
 
-const Stack = createNativeStackNavigator()
-
-const InfoScreen: React.FC<InfoProps> = ({ route }) => {
+const InfoScreen: React.FC<InfoProps> = () => {
 	return (
 		<SafeAreaView style={styles.container}>
-			<Text style={styles.text}>{route.params.name}</Text>
+			<Text style={styles.text}>This is the info section!</Text>
 		</SafeAreaView>
 	)
 }
