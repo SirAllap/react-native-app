@@ -30,22 +30,22 @@ const HomeScreen: React.FC<HomeProps> = ({ navigation }) => {
 					accessibilityLabel='input'
 					accessibilityLabelledBy='inputRefNum'
 				/>
-				<Pressable
-					onPress={() =>
-						navigation.navigate('CheckInScreen', {
-							checkInRef: refNumber,
-						})
-					}
-					style={
-						refNumber.length !== 4
-							? styles.buttonDisabled
-							: styles.buttonStyle
-					}
-					disabled={refNumber.length !== 4 ? true : false}
-				>
-					<Text style={styles.buttonText}>CHECK IN</Text>
-				</Pressable>
 			</View>
+			<Pressable
+				onPress={() =>
+					navigation.navigate('CheckInScreen', {
+						checkInRef: refNumber,
+					})
+				}
+				style={
+					refNumber.length !== 4
+						? styles.buttonDisabled
+						: styles.buttonStyle
+				}
+				disabled={refNumber.length !== 4 ? true : false}
+			>
+				<Text style={styles.buttonText}>Check In</Text>
+			</Pressable>
 		</SafeAreaView>
 	)
 }
