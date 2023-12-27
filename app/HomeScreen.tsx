@@ -16,29 +16,19 @@ const HomeScreen: React.FC<HomeProps> = ({ navigation }) => {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			{/* <View style={styles.headerContainer}>
-				<Image
-					source={require('../assets/miranda_logo.png')}
-					style={styles.imageStyle}
-				/>
-				<Pressable
-					onPress={() => navigation.navigate('InfoScreen')}
-					style={styles.navMenu}
-				>
-					<Text>Info</Text>
-				</Pressable>
-			</View> */}
-
 			<View style={styles.bodyContainer}>
-				<Text style={styles.inputLabel}>Booking reference number:</Text>
+				<Text nativeID='inputRefNum' style={styles.inputLabel}>
+					Booking reference number:
+				</Text>
 				<TextInput
 					style={styles.inputStyle}
 					keyboardType='numeric'
 					onChangeText={setRefNumber}
 					placeholder='0000'
 					placeholderTextColor='#a5a4a4'
-					value={refNumber}
 					maxLength={4}
+					accessibilityLabel='input'
+					accessibilityLabelledBy='inputRefNum'
 				/>
 				<Pressable
 					onPress={() =>
@@ -46,7 +36,12 @@ const HomeScreen: React.FC<HomeProps> = ({ navigation }) => {
 							checkInRef: refNumber,
 						})
 					}
-					style={styles.buttonStyle}
+					style={
+						refNumber.length !== 4
+							? styles.buttonDisabled
+							: styles.buttonStyle
+					}
+					disabled={refNumber.length !== 4 ? true : false}
 				>
 					<Text style={styles.buttonText}>CHECK IN</Text>
 				</Pressable>
