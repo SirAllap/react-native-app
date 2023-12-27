@@ -19,12 +19,11 @@ const App = () => {
 				screenOptions={({ navigation }) => ({
 					headerTitle: (props) => <Header />,
 					headerRight: () => (
-						<Pressable
+						<Button
+							title='Info'
+							color='#BEAD8E'
 							onPress={() => navigation.navigate('InfoScreen')}
-							style={styles.navMenu}
-						>
-							<Text style={styles.navText}>Info</Text>
-						</Pressable>
+						/>
 					),
 					headerStyle: {
 						backgroundColor: '#BEAD8E',
@@ -47,12 +46,11 @@ const App = () => {
 					options={({ navigation }) => ({
 						title: 'Info',
 						headerRight: () => (
-							<Pressable
+							<Button
+								title='Home'
+								color='#BEAD8E'
 								onPress={() => navigation.navigate('Home')}
-								style={styles.navMenu}
-							>
-								<Text style={styles.navText}>Home</Text>
-							</Pressable>
+							/>
 						),
 					})}
 				/>
