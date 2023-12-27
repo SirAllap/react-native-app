@@ -6,7 +6,7 @@ import HomeScreen from './app/HomeScreen'
 import InfoScreen from './app/InfoScreen'
 import CheckInScreen from './app/CheckInScreen'
 import { RootStackParamList } from './interfaces/NavigationInterfaces'
-import Header from './components/Header'
+import Header from './components/Logo'
 import { styles } from './styles/styles'
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
