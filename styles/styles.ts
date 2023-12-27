@@ -29,7 +29,7 @@ export const styles = StyleSheet.create({
 		width: '90%',
 	},
 	text: {
-		color: 'red',
+		color: 'white',
 		alignSelf: 'center',
 	},
 	inputStyle: {
@@ -59,6 +59,18 @@ export const styles = StyleSheet.create({
 		backgroundColor: '#BEAD8E',
 		color: 'white',
 	},
+	buttonDisabled: {
+		position: 'absolute',
+		bottom: 5,
+		alignItems: 'center',
+		justifyContent: 'center',
+		paddingVertical: 32,
+		width: '100%',
+		borderRadius: 5,
+		color: 'white',
+		backgroundColor: 'gray',
+		opacity: 0.5,
+	},
 	buttonText: {
 		fontSize: 16,
 		lineHeight: 21,
@@ -70,5 +82,28 @@ export const styles = StyleSheet.create({
 		width: 120,
 		height: 35,
 		resizeMode: 'contain',
+	},
+	infoContainer: {
+		flex: 1,
+		alignContent: 'center',
+		justifyContent: 'center',
+		gap: 30,
+		width: '90%',
+	},
+	tableTitle: {
+		color: 'white',
+		fontSize: 30,
+		fontWeight: 'bold',
+		textAlign: 'center',
+	},
+	tableText: {
+		color: 'white',
+		borderWidth: 1,
+		borderStyle: 'solid',
+		borderColor: 'white',
+		width: '100%',
+		padding: 10,
+		textAlign: 'center',
+		fontSize: 12,
 	},
 })
