@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
 export const styles = StyleSheet.create({
 	container: {
@@ -50,22 +50,32 @@ export const styles = StyleSheet.create({
 	},
 	buttonStyle: {
 		position: 'absolute',
-		bottom: 10,
+		bottom: Platform.OS == 'ios' ? 25 : 10,
 		alignItems: 'center',
 		justifyContent: 'center',
 		paddingVertical: 32,
 		width: '95%',
-		borderRadius: 5,
+		borderRadius: Platform.OS == 'ios' ? 40 : 5,
 		backgroundColor: '#BEAD8E',
+	},
+	buttonStyleLongPress: {
+		position: 'absolute',
+		bottom: Platform.OS == 'ios' ? 25 : 10,
+		alignItems: 'center',
+		justifyContent: 'center',
+		paddingVertical: 32,
+		width: '95%',
+		borderRadius: Platform.OS == 'ios' ? 40 : 5,
+		backgroundColor: '#BEAD8E70',
 	},
 	buttonDisabled: {
 		position: 'absolute',
-		bottom: 10,
+		bottom: Platform.OS == 'ios' ? 25 : 10,
 		alignItems: 'center',
 		justifyContent: 'center',
 		paddingVertical: 32,
 		width: '95%',
-		borderRadius: 5,
+		borderRadius: Platform.OS == 'ios' ? 40 : 5,
 		backgroundColor: 'gray',
 		opacity: 0.5,
 	},
@@ -76,16 +86,6 @@ export const styles = StyleSheet.create({
 		letterSpacing: 0.25,
 		color: 'white',
 		textTransform: 'uppercase',
-	},
-	buttonStyleLongPress: {
-		position: 'absolute',
-		bottom: 10,
-		alignItems: 'center',
-		justifyContent: 'center',
-		paddingVertical: 32,
-		width: '95%',
-		borderRadius: 5,
-		backgroundColor: '#BEAD8E70',
 	},
 	imageStyle: {
 		width: 120,
