@@ -1,18 +1,10 @@
-import React from 'react'
-import {
-	SafeAreaView,
-	Text,
-	View,
-	Image,
-	Button,
-	TextInput,
-	Pressable,
-} from 'react-native'
+import React, { FC, useState } from 'react'
+import { SafeAreaView, Text, View, TextInput, Pressable } from 'react-native'
 import { HomeProps } from '../interfaces/NavigationInterfaces'
 import { styles } from '../styles/styles'
 
-const HomeScreen: React.FC<HomeProps> = ({ navigation }) => {
-	const [refNumber, setRefNumber] = React.useState<string>('')
+const HomeScreen: FC<HomeProps> = ({ navigation }) => {
+	const [refNumber, setRefNumber] = useState<string>('')
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -24,6 +16,7 @@ const HomeScreen: React.FC<HomeProps> = ({ navigation }) => {
 					style={styles.inputStyle}
 					keyboardType='numeric'
 					onChangeText={setRefNumber}
+					value={refNumber}
 					placeholder='0000'
 					placeholderTextColor='#a5a4a4'
 					maxLength={4}
@@ -32,11 +25,12 @@ const HomeScreen: React.FC<HomeProps> = ({ navigation }) => {
 				/>
 			</View>
 			<Pressable
-				onPress={() =>
+				onPress={() => {
 					navigation.navigate('CheckInScreen', {
 						checkInRef: refNumber,
 					})
-				}
+					setRefNumber('')
+				}}
 				style={
 					refNumber.length !== 4
 						? styles.buttonDisabled
@@ -44,7 +38,7 @@ const HomeScreen: React.FC<HomeProps> = ({ navigation }) => {
 				}
 				disabled={refNumber.length !== 4 ? true : false}
 			>
-				<Text style={styles.buttonText}>Check In</Text>
+				<Text style={styles.buttonText}>Check</Text>
 			</Pressable>
 		</SafeAreaView>
 	)
