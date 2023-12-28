@@ -7,7 +7,7 @@ import InfoScreen from './app/InfoScreen'
 import CheckInScreen from './app/CheckInScreen'
 import { RootStackParamList } from './interfaces/NavigationInterfaces'
 import Header from './components/Logo'
-import { styles } from './styles/styles'
+import LoginScreen from './app/LoginScreen'
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
@@ -16,6 +16,7 @@ const App = () => {
 		<NavigationContainer>
 			<StatusBar backgroundColor='#222222' barStyle='default' />
 			<Stack.Navigator
+				initialRouteName='Login'
 				screenOptions={({ navigation }) => ({
 					headerTitle: (props) => <Header />,
 					headerRight: () => (
@@ -35,6 +36,15 @@ const App = () => {
 					},
 				})}
 			>
+				<Stack.Screen
+					name='Login'
+					component={LoginScreen}
+					options={{
+						title: 'Login',
+						headerRight: () => null,
+						headerTitleAlign: 'center',
+					}}
+				/>
 				<Stack.Screen
 					name='Home'
 					component={HomeScreen}
