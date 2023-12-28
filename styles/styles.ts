@@ -21,10 +21,19 @@ export const styles = StyleSheet.create({
 		color: 'white',
 		fontSize: 20,
 	},
-	bodyContainer: {
+	homeContainer: {
 		flex: 1,
 		alignContent: 'center',
 		justifyContent: 'center',
+		gap: 50,
+		height: 100,
+		width: '90%',
+	},
+	loginContainer: {
+		flex: 1,
+		alignContent: 'center',
+		justifyContent: 'center',
+		gap: 30,
 		height: 100,
 		width: '90%',
 	},
@@ -45,6 +54,10 @@ export const styles = StyleSheet.create({
 		fontSize: 19,
 	},
 	inputLabel: {
+		color: 'white',
+		fontSize: 22,
+	},
+	userWelcome: {
 		color: 'white',
 		fontSize: 22,
 	},
@@ -89,7 +102,7 @@ export const styles = StyleSheet.create({
 	},
 	imageStyle: {
 		width: 120,
-		height: 35,
+		height: 45,
 		resizeMode: 'contain',
 	},
 	infoContainer: {

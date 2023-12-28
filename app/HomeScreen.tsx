@@ -11,38 +11,29 @@ import { HomeProps } from '../interfaces/NavigationInterfaces'
 import { styles } from '../styles/styles'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
+interface IuserInfo {
+	name: string
+	email: string
+	photo: string
+}
 const HomeScreen: FC<HomeProps> = ({ navigation }) => {
 	const [refNumber, setRefNumber] = useState<string>('')
+	const [userInfo, setUserInfo] = useState<IuserInfo>()
 
-	const loginUser = async () => {
+	const userData = async () => {
 		try {
-			const response = await fetch(
-				`https://i19d9hr144.execute-api.eu-west-1.amazonaws.com/login`,
-				{
-					method: 'POST',
-					mode: 'cors',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify({
-						email: 'david.pr.developer@gmail.com',
-						password: 'ilovebaguettes',
-					}),
-				}
-			)
-			if (!response.ok) {
-				throw new Error(`Status ${response.status}`)
+			const data = await AsyncStorage.getItem('userData')
+			if (data !== null) {
+				setUserInfo(JSON.parse(data))
 			} else {
-				const data = await response.json()
-				await AsyncStorage.setItem('token', data.token)
-				bookingData(refNumber)
-				return data
+				console.log('User data is null')
 			}
 		} catch (error) {
-			console.error('An error occurred during login:', error)
-			throw new Error('Login failed. Please try again.')
+			console.error('Error retrieving user data:', error)
 		}
 	}
+	userData()
+
 	const bookingData = async (ref_number: string) => {
 		try {
 			const response = await fetch(
@@ -79,25 +70,38 @@ const HomeScreen: FC<HomeProps> = ({ navigation }) => {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<View style={styles.bodyContainer}>
-				<Text nativeID='inputRefNum' style={styles.inputLabel}>
-					Booking reference number:
-				</Text>
-				<TextInput
-					style={styles.inputStyle}
-					onChangeText={setRefNumber}
-					value={refNumber}
-					placeholder='E.g: SwcJ3'
-					placeholderTextColor='#a5a4a4'
-					maxLength={5}
-					accessibilityLabel='input'
-					accessibilityLabelledBy='inputRefNum'
-				/>
+			<View style={styles.homeContainer}>
+				{userInfo !== undefined && (
+					<View>
+						<Text style={styles.userWelcome}>
+							Welcome {userInfo.name}
+						</Text>
+						<Text style={{ color: 'white', paddingTop: 10 }}>
+							Kindly review your email inbox for the booking
+							details following your reservation at Miranda Hotel
+						</Text>
+					</View>
+				)}
+				<View>
+					<Text nativeID='inputRefNum' style={styles.inputLabel}>
+						Booking reference number:
+					</Text>
+					<TextInput
+						style={styles.inputStyle}
+						onChangeText={setRefNumber}
+						value={refNumber}
+						placeholder='E.g: SwcJ3'
+						placeholderTextColor='#a5a4a4'
+						maxLength={5}
+						accessibilityLabel='input'
+						accessibilityLabelledBy='inputRefNum'
+					/>
+				</View>
 			</View>
 			<Pressable
 				onPress={() => {
 					setRefNumber('')
-					loginUser()
+					bookingData(refNumber)
 				}}
 				style={
 					refNumber.length !== 5
