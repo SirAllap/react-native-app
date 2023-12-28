@@ -40,6 +40,7 @@ const CheckInScreen: React.FC<CheckInProps> = ({ route, navigation }) => {
 				onPressOut={() => {
 					setLongPress(false)
 				}}
+				delayLongPress={1500}
 				style={
 					!longPress
 						? styles.buttonStyle
