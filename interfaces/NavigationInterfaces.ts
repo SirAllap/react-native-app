@@ -7,7 +7,14 @@ import {
 export type RootStackParamList = {
 	Login: { email: string; password: string }
 	Home: undefined
-	CheckInScreen: { checkInRef: string }
+	CheckInScreen: {
+		checkInRef: string
+		checkIn: string
+		checkOut: string
+		roomType: string
+		roomNumber: string
+		roomId: string
+	}
 	InfoScreen: undefined
 }
 
