@@ -1,4 +1,4 @@
-import { Linking, SafeAreaView, Text, View } from 'react-native'
+import { Alert, Linking, SafeAreaView, Text, View } from 'react-native'
 import React from 'react'
 import { InfoProps } from '../interfaces/NavigationInterfaces'
 import { styles } from '../styles/styles'
@@ -12,7 +12,25 @@ const InfoScreen: React.FC<InfoProps> = () => {
 					<Text
 						style={styles.infoTableText}
 						onPress={() => {
-							Linking.openURL(`tel:+34 910 555 555`)
+							Alert.alert(
+								'Calling the reception',
+								'Are you sure?',
+								[
+									{
+										text: 'Cancel',
+										onPress: () =>
+											console.log('Cancel Pressed'),
+										style: 'cancel',
+									},
+									{
+										text: 'OK',
+										onPress: () =>
+											Linking.openURL(
+												`tel:+34 910 555 555`
+											),
+									},
+								]
+							)
 						}}
 					>
 						Reception Phone number: +34 910 555 555
@@ -20,7 +38,19 @@ const InfoScreen: React.FC<InfoProps> = () => {
 					<Text
 						style={styles.infoTableText}
 						onPress={() => {
-							Linking.openURL(`tel:+34 910 555 556`)
+							Alert.alert('Calling a room.', 'Are you sure?', [
+								{
+									text: 'Cancel',
+									onPress: () =>
+										console.log('Cancel Pressed'),
+									style: 'cancel',
+								},
+								{
+									text: 'OK',
+									onPress: () =>
+										Linking.openURL(`tel:+34 910 555 556`),
+								},
+							])
 						}}
 					>
 						ROOM Phone NUMBER: +34 910 555 556 #EXT (Room number)
@@ -28,7 +58,25 @@ const InfoScreen: React.FC<InfoProps> = () => {
 					<Text
 						style={styles.infoTableText}
 						onPress={() => {
-							Linking.openURL(`tel:+34 912 555 555`)
+							Alert.alert(
+								'Calling the 24H Helpline',
+								'Are you sure?',
+								[
+									{
+										text: 'Cancel',
+										onPress: () =>
+											console.log('Cancel Pressed'),
+										style: 'cancel',
+									},
+									{
+										text: 'OK',
+										onPress: () =>
+											Linking.openURL(
+												`tel:+34 912 555 555`
+											),
+									},
+								]
+							)
 						}}
 					>
 						24H HELPLINE: +34 912 555 555
@@ -36,9 +84,21 @@ const InfoScreen: React.FC<InfoProps> = () => {
 					<Text
 						style={styles.infoTableText}
 						onPress={() => {
-							Linking.openURL(
-								`https://www.google.com/maps/search/?api=1&query=CALLE+DE+LA+PRINCESA,+31.+Madrid+28008`
-							)
+							Alert.alert('Open maps', 'Are you sure?', [
+								{
+									text: 'Cancel',
+									onPress: () =>
+										console.log('Cancel Pressed'),
+									style: 'cancel',
+								},
+								{
+									text: 'OK',
+									onPress: () =>
+										Linking.openURL(
+											`https://www.google.com/maps/search/?api=1&query=CALLE+DE+LA+PRINCESA,+31.+Madrid+28008`
+										),
+								},
+							])
 						}}
 					>
 						Address: CALLE DE LA PRINCESA, 31. Madrid 28008
@@ -46,7 +106,18 @@ const InfoScreen: React.FC<InfoProps> = () => {
 					<Text
 						style={styles.infoTableText}
 						onPress={() => {
-							Linking.openURL(`tel:112`)
+							Alert.alert('Calling emergency', 'Are you sure?', [
+								{
+									text: 'Cancel',
+									onPress: () =>
+										console.log('Cancel Pressed'),
+									style: 'cancel',
+								},
+								{
+									text: 'OK',
+									onPress: () => Linking.openURL(`tel:112`),
+								},
+							])
 						}}
 					>
 						EMERGENCY NUMBER: 112
