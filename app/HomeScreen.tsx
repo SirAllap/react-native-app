@@ -34,6 +34,10 @@ const HomeScreen: FC<HomeProps> = ({ navigation }) => {
 	}
 	userData()
 
+	const formatedDate = (date: string) => {
+		return date.replace(/\d{2}:\d{2}:\d{2} GMT\+0000 \(GMT\)/, '')
+	}
+
 	const bookingData = async (ref_number: string) => {
 		try {
 			const response = await fetch(
@@ -53,7 +57,13 @@ const HomeScreen: FC<HomeProps> = ({ navigation }) => {
 				const data = await response.json()
 				navigation.navigate('CheckInScreen', {
 					checkInRef: refNumber,
+					checkIn: formatedDate(data.check_in),
+					checkOut: formatedDate(data.check_out),
+					roomType: data.room_type,
+					roomNumber: data.room_number,
+					roomId: data.roomId,
 				})
+				console.log(data)
 				return data
 			}
 		} catch (error) {
