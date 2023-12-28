@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import { Button, Pressable, StatusBar, Text } from 'react-native'
+import { Button, Platform, Pressable, StatusBar, Text } from 'react-native'
 import HomeScreen from './app/HomeScreen'
 import InfoScreen from './app/InfoScreen'
 import CheckInScreen from './app/CheckInScreen'
@@ -21,7 +21,7 @@ const App = () => {
 					headerRight: () => (
 						<Button
 							title='Info'
-							color='#BEAD8E'
+							color={Platform.OS == 'ios' ? 'white' : '#BEAD8E'}
 							onPress={() => navigation.navigate('InfoScreen')}
 						/>
 					),
