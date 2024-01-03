@@ -5,7 +5,8 @@ import {
 	Pressable,
 	KeyboardAvoidingView,
 	Platform,
-	Keyboard,
+	Alert,
+	ActivityIndicator,
 } from 'react-native'
 import React, { FC, useEffect, useState } from 'react'
 import { styles } from '../styles/styles'
@@ -16,6 +17,7 @@ import { LoginProps } from '../interfaces/NavigationInterfaces'
 const LoginScreen: FC<LoginProps> = ({ navigation }) => {
 	const [email, setEmail] = useState<string>('')
 	const [password, setPassword] = useState<string>('')
+	const [loading, setLoading] = useState<boolean>(false)
 
 	interface ILogin {
 		email: string
@@ -23,6 +25,7 @@ const LoginScreen: FC<LoginProps> = ({ navigation }) => {
 	}
 
 	const loginUser = async (data: ILogin) => {
+		setLoading(true)
 		try {
 			const response = await fetch(
 				`https://i19d9hr144.execute-api.eu-west-1.amazonaws.com/login`,
@@ -39,6 +42,8 @@ const LoginScreen: FC<LoginProps> = ({ navigation }) => {
 				}
 			)
 			if (!response.ok) {
+				Alert.alert('Email or password incorrect')
+				setLoading(false)
 				throw new Error(`Status ${response.status}`)
 			} else {
 				const data = await response.json()
@@ -52,6 +57,7 @@ const LoginScreen: FC<LoginProps> = ({ navigation }) => {
 					})
 				)
 				navigation.navigate('Home')
+				setLoading(false)
 				return data
 			}
 		} catch (error) {
@@ -66,6 +72,10 @@ const LoginScreen: FC<LoginProps> = ({ navigation }) => {
 					behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
 				>
 					<Text style={styles.tableTitle}>Login</Text>
+					{loading ? (
+						<ActivityIndicator size='large' color='#BEAD8E' />
+					) : null}
+
 					<View>
 						<Text nativeID='inputEmail' style={styles.inputLabel}>
 							Email:
