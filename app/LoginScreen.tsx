@@ -19,7 +19,7 @@ const LoginScreen: FC<LoginProps> = ({ navigation }) => {
 	const [password, setPassword] = useState<string>('')
 	const [loading, setLoading] = useState<boolean>(false)
 
-	interface ILogin {
+	type ILogin = {
 		email: string
 		password: string
 	}
@@ -65,6 +65,7 @@ const LoginScreen: FC<LoginProps> = ({ navigation }) => {
 			throw new Error('Login failed. Please try again.')
 		}
 	}
+
 	return (
 		<SafeAreaView style={styles.container}>
 			<View style={styles.loginContainer}>
@@ -88,6 +89,12 @@ const LoginScreen: FC<LoginProps> = ({ navigation }) => {
 							placeholderTextColor='#a5a4a4'
 							accessibilityLabel='input'
 							accessibilityLabelledBy='inputEmail'
+							keyboardType='email-address'
+							textContentType='emailAddress'
+							autoComplete='email'
+							autoFocus
+							autoCapitalize='none'
+							autoCorrect={false}
 						/>
 					</View>
 					<View>
@@ -106,6 +113,8 @@ const LoginScreen: FC<LoginProps> = ({ navigation }) => {
 							placeholderTextColor='#a5a4a4'
 							accessibilityLabel='input'
 							accessibilityLabelledBy='inputPassword'
+							textContentType='password'
+							autoCapitalize='none'
 						/>
 					</View>
 				</KeyboardAvoidingView>
