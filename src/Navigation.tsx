@@ -18,7 +18,7 @@ import LoginScreen from './app/LoginScreen'
 import { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useAppSelector } from './store/hooks'
-import { initialLoginState, resetState } from './features/login/loginSlice'
+import { initialLoginState } from './features/login/loginSlice'
 import { useDispatch } from 'react-redux'
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
@@ -30,7 +30,6 @@ const Navigation = () => {
 
 	useEffect(() => {
 		if (loginInitialState === 'fulfilled') {
-			// navigation.navigate('Home')
 			setlogged(true)
 		}
 	}, [loginInitialState])
