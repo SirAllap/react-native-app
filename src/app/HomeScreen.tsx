@@ -5,8 +5,8 @@ import {
 	View,
 	TextInput,
 	Pressable,
-	Alert,
 	ActivityIndicator,
+	Alert,
 } from 'react-native'
 import { HomeProps } from '../interfaces/NavigationInterfaces'
 import { styles } from '../../styles/styles'
@@ -41,6 +41,9 @@ const HomeScreen: FC<HomeProps> = ({ navigation }) => {
 		if (bookingInitialState === 'fulfilled') {
 			navigation.navigate('CheckInScreen', {
 				checkInRef: refNumber,
+				id: formatedDate(bookingDataSelector._id),
+				guest: formatedDate(bookingDataSelector.guest),
+				status: formatedDate(bookingDataSelector.status),
 				checkIn: formatedDate(bookingDataSelector.check_in),
 				checkOut: formatedDate(bookingDataSelector.check_out),
 				roomType: bookingDataSelector.room_type,

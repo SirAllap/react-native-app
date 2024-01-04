@@ -8,6 +8,9 @@ export type RootStackParamList = {
 	Home: undefined
 	CheckInScreen: {
 		checkInRef: string
+		id: string
+		guest: string
+		status: string
 		checkIn: string
 		checkOut: string
 		roomType: string

@@ -37,3 +37,30 @@ export const singleBooking = createAsyncThunk(
 		}
 	}
 )
+export const changeBookingStatus = createAsyncThunk(
+	'bookings/singleBooking',
+	async (id: string) => {
+		try {
+			const response = await fetch(`${API_URL}/bookings/${id}`, {
+				method: 'PUT',
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+					token: `${await AsyncStorage.getItem('token')}`,
+				},
+				body: JSON.stringify({
+					status: 'CheckIn',
+				}),
+			})
+
+			if (!response.ok) {
+				throw new Error(`Status ${response.status}`)
+			} else {
+				const data = await response.json()
+				return data
+			}
+		} catch (error) {
+			throw new Error('No available booking with that id number.')
+		}
+	}
+)

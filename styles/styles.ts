@@ -112,6 +112,11 @@ export const styles = StyleSheet.create({
 		gap: 30,
 		width: '90%',
 	},
+	checkInContainer: {
+		marginTop: 20,
+		alignContent: 'center',
+		width: '90%',
+	},
 	tableTitle: {
 		color: 'white',
 		fontSize: 25,
