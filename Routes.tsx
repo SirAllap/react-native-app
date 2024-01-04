@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import { Button, Platform, StatusBar, Text } from 'react-native'
+import { Alert, Button, Platform, StatusBar, Text } from 'react-native'
 import HomeScreen from './app/HomeScreen'
 import InfoScreen from './app/InfoScreen'
 import CheckInScreen from './app/CheckInScreen'
@@ -11,13 +11,15 @@ import LoginScreen from './app/LoginScreen'
 import { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useAppSelector } from './store/hooks'
-import { initialLoginState } from './features/login/loginSlice'
+import { initialLoginState, resetState } from './features/login/loginSlice'
+import { useDispatch } from 'react-redux'
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
 const Routes = () => {
 	const loginInitialState = useAppSelector(initialLoginState)
-	const [logged, setlogged] = useState<boolean>(true)
+	const dispatch = useDispatch()
+	const [logged, setlogged] = useState<boolean>(false)
 
 	useEffect(() => {
 		if (loginInitialState === 'fulfilled') {
