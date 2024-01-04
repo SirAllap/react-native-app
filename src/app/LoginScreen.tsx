@@ -53,48 +53,53 @@ const LoginScreen: FC<LoginProps> = ({ navigation }) => {
 					<Text style={styles.tableTitle}>Login</Text>
 					{loading ? (
 						<ActivityIndicator size='large' color='#BEAD8E' />
-					) : null}
-
-					<View>
-						<Text nativeID='inputEmail' style={styles.inputLabel}>
-							Email:
-						</Text>
-						<TextInput
-							style={styles.inputStyle}
-							onChangeText={setEmail}
-							value={email}
-							placeholder='E.g: myemail@gmail.com'
-							placeholderTextColor='#a5a4a4'
-							accessibilityLabel='input'
-							accessibilityLabelledBy='inputEmail'
-							keyboardType='email-address'
-							textContentType='emailAddress'
-							autoComplete='email'
-							autoFocus
-							autoCapitalize='none'
-							autoCorrect={false}
-						/>
-					</View>
-					<View>
-						<Text
-							nativeID='inputPassword'
-							style={styles.inputLabel}
-						>
-							Password:
-						</Text>
-						<TextInput
-							style={styles.inputStyle}
-							onChangeText={setPassword}
-							value={password}
-							secureTextEntry={true}
-							placeholder='E.g: 1234567890'
-							placeholderTextColor='#a5a4a4'
-							accessibilityLabel='input'
-							accessibilityLabelledBy='inputPassword'
-							textContentType='password'
-							autoCapitalize='none'
-						/>
-					</View>
+					) : (
+						<>
+							<View>
+								<Text
+									nativeID='inputEmail'
+									style={styles.inputLabel}
+								>
+									Email:
+								</Text>
+								<TextInput
+									style={styles.inputStyle}
+									onChangeText={setEmail}
+									value={email}
+									placeholder='E.g: myemail@gmail.com'
+									placeholderTextColor='#a5a4a4'
+									accessibilityLabel='input'
+									accessibilityLabelledBy='inputEmail'
+									keyboardType='email-address'
+									textContentType='emailAddress'
+									autoComplete='email'
+									autoFocus
+									autoCapitalize='none'
+									autoCorrect={false}
+								/>
+							</View>
+							<View>
+								<Text
+									nativeID='inputPassword'
+									style={styles.inputLabel}
+								>
+									Password:
+								</Text>
+								<TextInput
+									style={styles.inputStyle}
+									onChangeText={setPassword}
+									value={password}
+									secureTextEntry={true}
+									placeholder='E.g: 1234567890'
+									placeholderTextColor='#a5a4a4'
+									accessibilityLabel='input'
+									accessibilityLabelledBy='inputPassword'
+									textContentType='password'
+									autoCapitalize='none'
+								/>
+							</View>
+						</>
+					)}
 				</KeyboardAvoidingView>
 			</View>
 			<Pressable
