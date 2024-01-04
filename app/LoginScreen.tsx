@@ -5,61 +5,43 @@ import {
 	Pressable,
 	KeyboardAvoidingView,
 	Platform,
-	Alert,
 	ActivityIndicator,
+	Alert,
 } from 'react-native'
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { styles } from '../styles/styles'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { LoginProps } from '../interfaces/NavigationInterfaces'
-import { ILogin } from '../interfaces/LoginInterfaces'
+import { useAppDispatch, useAppSelector } from '../store/hooks'
+import {
+	initialLoginState,
+	selectLoginInfo,
+} from '../features/login/loginSlice'
+import { userLogin } from '../features/login/loginThunks'
 
 const LoginScreen: FC<LoginProps> = ({ navigation }) => {
+	const dispatch = useAppDispatch()
+	const loginInitialState = useAppSelector(initialLoginState)
+	const loginInfo = useAppSelector(selectLoginInfo)
 	const [email, setEmail] = useState<string>('')
 	const [password, setPassword] = useState<string>('')
 	const [loading, setLoading] = useState<boolean>(false)
 
-	const loginUser = async (data: ILogin) => {
-		setLoading(true)
-		try {
-			const response = await fetch(
-				`https://i19d9hr144.execute-api.eu-west-1.amazonaws.com/login`,
-				{
-					method: 'POST',
-					mode: 'cors',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify({
-						email: data.email,
-						password: data.password,
-					}),
-				}
-			)
-			if (!response.ok) {
-				Alert.alert('Email or password incorrect')
-				setLoading(false)
-				throw new Error(`Status ${response.status}`)
-			} else {
-				const data = await response.json()
-				await AsyncStorage.setItem('token', data.token)
-				await AsyncStorage.setItem(
-					'userData',
-					JSON.stringify({
-						name: data.payload.userInfo.name,
-						email: data.payload.userInfo.email,
-						photo: data.payload.userInfo.photo,
-					})
-				)
-				navigation.navigate('Home')
-				setLoading(false)
-				return data
-			}
-		} catch (error) {
-			console.error('An error occurred during login:', error)
-			throw new Error('Login failed. Please try again.')
+	useEffect(() => {
+		if (loginInitialState === 'rejected') {
+			setLoading(false)
 		}
+		if (loginInitialState === 'pending') {
+			setLoading(true)
+		}
+		if (loginInitialState === 'fulfilled') {
+			navigation.navigate('Home')
+			setLoading(false)
+		}
+	}, [loginInitialState])
+
+	const authUser = async () => {
+		dispatch(userLogin({ email: email, password: password }))
 	}
 
 	return (
@@ -117,7 +99,7 @@ const LoginScreen: FC<LoginProps> = ({ navigation }) => {
 			</View>
 			<Pressable
 				onPress={() => {
-					loginUser({ email: email, password: password })
+					authUser()
 				}}
 				style={
 					!(email.length >= 5 && password.length >= 5)
