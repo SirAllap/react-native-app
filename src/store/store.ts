@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import loginSlice from '../features/login/loginSlice'
+import bookingSlice from '../features/bookings/bookingSlice'
 
 export const store = configureStore({
 	reducer: {
 		login: loginSlice,
+		booking: bookingSlice,
 	},
 })
 
