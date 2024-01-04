@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import {
 	SafeAreaView,
 	Text,
@@ -6,10 +6,17 @@ import {
 	TextInput,
 	Pressable,
 	Alert,
+	ActivityIndicator,
 } from 'react-native'
 import { HomeProps } from '../interfaces/NavigationInterfaces'
 import { styles } from '../../styles/styles'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { singleBooking } from '../features/bookings/bookingThunks'
+import { useAppDispatch, useAppSelector } from '../store/hooks'
+import {
+	initialBookingState,
+	selectBookingData,
+} from '../features/bookings/bookingSlice'
 
 interface IuserInfo {
 	name: string
@@ -17,10 +24,34 @@ interface IuserInfo {
 	photo: string
 }
 const HomeScreen: FC<HomeProps> = ({ navigation }) => {
+	const dispatch = useAppDispatch()
+	const bookingInitialState = useAppSelector(initialBookingState)
+	const bookingDataSelector = useAppSelector(selectBookingData)
 	const [refNumber, setRefNumber] = useState<string>('')
 	const [userInfo, setUserInfo] = useState<IuserInfo>()
+	const [loading, setLoading] = useState<boolean>(false)
 
-	const userData = async () => {
+	useEffect(() => {
+		if (bookingInitialState === 'rejected') {
+			setLoading(false)
+		}
+		if (bookingInitialState === 'pending') {
+			setLoading(true)
+		}
+		if (bookingInitialState === 'fulfilled') {
+			navigation.navigate('CheckInScreen', {
+				checkInRef: refNumber,
+				checkIn: formatedDate(bookingDataSelector.check_in),
+				checkOut: formatedDate(bookingDataSelector.check_out),
+				roomType: bookingDataSelector.room_type,
+				roomNumber: bookingDataSelector.room_number,
+				roomId: bookingDataSelector.roomId,
+			})
+			setRefNumber('')
+			setLoading(false)
+		}
+	}, [bookingInitialState])
+	;(async () => {
 		try {
 			const data = await AsyncStorage.getItem('userData')
 			if (data !== null) {
@@ -31,50 +62,14 @@ const HomeScreen: FC<HomeProps> = ({ navigation }) => {
 		} catch (error) {
 			console.error('Error retrieving user data:', error)
 		}
-	}
-	userData()
+	})()
 
 	const formatedDate = (date: string) => {
 		return date.replace(/\d{2}:\d{2}:\d{2} GMT\+0000 \(GMT\)/, '')
 	}
 
-	const bookingData = async (ref_number: string) => {
-		try {
-			const response = await fetch(
-				`https://i19d9hr144.execute-api.eu-west-1.amazonaws.com/bookings/ref/${ref_number}`,
-				{
-					method: 'GET',
-					headers: {
-						Accept: 'application/json',
-						'Content-Type': 'application/json',
-						token: `${await AsyncStorage.getItem('token')}`,
-					},
-				}
-			)
-			if (!response.ok) {
-				throw new Error(`Status ${response.status}`)
-			} else {
-				const data = await response.json()
-				navigation.navigate('CheckInScreen', {
-					checkInRef: refNumber,
-					checkIn: formatedDate(data.check_in),
-					checkOut: formatedDate(data.check_out),
-					roomType: data.room_type,
-					roomNumber: data.room_number,
-					roomId: data.roomId,
-				})
-				return data
-			}
-		} catch (error) {
-			console.log(
-				`There is not a booking with ${ref_number} as a  reference number`
-			)
-			Alert.alert(
-				'Reference number incorrect',
-				`Sorry but there is not a booking with ${ref_number} as a  reference number`
-			)
-			console.error(error)
-		}
+	const bookingData = (ref_number: string) => {
+		dispatch(singleBooking(ref_number))
 	}
 
 	return (
@@ -91,25 +86,33 @@ const HomeScreen: FC<HomeProps> = ({ navigation }) => {
 						</Text>
 					</View>
 				)}
-				<View>
-					<Text nativeID='inputRefNum' style={styles.inputLabel}>
-						Booking reference number:
-					</Text>
-					<TextInput
-						style={styles.inputStyle}
-						onChangeText={setRefNumber}
-						value={refNumber}
-						placeholder='E.g: SwcJ3'
-						placeholderTextColor='#a5a4a4'
-						maxLength={5}
-						accessibilityLabel='input'
-						accessibilityLabelledBy='inputRefNum'
-					/>
-				</View>
+				{loading ? (
+					<ActivityIndicator size='large' color='#BEAD8E' />
+				) : (
+					<>
+						<View>
+							<Text
+								nativeID='inputRefNum'
+								style={styles.inputLabel}
+							>
+								Booking reference number:
+							</Text>
+							<TextInput
+								style={styles.inputStyle}
+								onChangeText={setRefNumber}
+								value={refNumber}
+								placeholder='E.g: SwcJ3'
+								placeholderTextColor='#a5a4a4'
+								maxLength={5}
+								accessibilityLabel='input'
+								accessibilityLabelledBy='inputRefNum'
+							/>
+						</View>
+					</>
+				)}
 			</View>
 			<Pressable
 				onPress={() => {
-					setRefNumber('')
 					bookingData(refNumber)
 				}}
 				style={
