@@ -1,7 +1,6 @@
 import React from 'react'
 import { Image } from 'react-native'
-import { styles } from '../styles/styles'
-import { HeaderProps } from '../interfaces/NavigationInterfaces'
+import { styles } from '../../styles/styles'
 
 const Header = () => {
 	return (

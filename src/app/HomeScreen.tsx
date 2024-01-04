@@ -8,7 +8,7 @@ import {
 	Alert,
 } from 'react-native'
 import { HomeProps } from '../interfaces/NavigationInterfaces'
-import { styles } from '../styles/styles'
+import { styles } from '../../styles/styles'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 interface IuserInfo {
@@ -63,7 +63,6 @@ const HomeScreen: FC<HomeProps> = ({ navigation }) => {
 					roomNumber: data.room_number,
 					roomId: data.roomId,
 				})
-				console.log(data)
 				return data
 			}
 		} catch (error) {

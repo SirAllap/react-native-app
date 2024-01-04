@@ -1,7 +1,7 @@
 import { Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import { CheckInProps } from '../interfaces/NavigationInterfaces'
-import { styles } from '../styles/styles'
+import { styles } from '../../styles/styles'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 interface IuserInfo {

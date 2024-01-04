@@ -9,7 +9,7 @@ import {
 	Alert,
 } from 'react-native'
 import React, { FC, useEffect, useState } from 'react'
-import { styles } from '../styles/styles'
+import { styles } from '../../styles/styles'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { LoginProps } from '../interfaces/NavigationInterfaces'
 import { useAppDispatch, useAppSelector } from '../store/hooks'

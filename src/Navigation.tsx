@@ -1,7 +1,14 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import { Alert, Button, Platform, StatusBar, Text } from 'react-native'
+import {
+	Alert,
+	Button,
+	Platform,
+	StatusBar,
+	Text,
+	TouchableHighlight,
+} from 'react-native'
 import HomeScreen from './app/HomeScreen'
 import InfoScreen from './app/InfoScreen'
 import CheckInScreen from './app/CheckInScreen'
@@ -16,7 +23,7 @@ import { useDispatch } from 'react-redux'
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
-const Routes = () => {
+const Navigation = () => {
 	const loginInitialState = useAppSelector(initialLoginState)
 	const dispatch = useDispatch()
 	const [logged, setlogged] = useState<boolean>(false)
@@ -49,21 +56,23 @@ const Routes = () => {
 										navigation.navigate('InfoScreen')
 									}
 								/>
-								<Button
-									title='Logout'
-									color={
-										Platform.OS == 'ios'
-											? 'white'
-											: '#BEAD8E'
-									}
-									onPress={async () => {
-										await AsyncStorage.removeItem(
-											'userData'
-										)
-										setlogged(false)
-										navigation.navigate('Login')
-									}}
-								/>
+								<TouchableHighlight style={{ marginLeft: 20 }}>
+									<Button
+										title='Logout'
+										color={
+											Platform.OS == 'ios'
+												? 'white'
+												: '#BEAD8E'
+										}
+										onPress={async () => {
+											await AsyncStorage.removeItem(
+												'userData'
+											)
+											setlogged(false)
+											navigation.navigate('Login')
+										}}
+									/>
+								</TouchableHighlight>
 							</>
 						) : null,
 					headerStyle: {
@@ -106,21 +115,25 @@ const Routes = () => {
 												navigation.navigate('Home')
 											}
 										/>
-										<Button
-											title='Logout'
-											color={
-												Platform.OS == 'ios'
-													? 'white'
-													: '#BEAD8E'
-											}
-											onPress={async () => {
-												await AsyncStorage.removeItem(
-													'userData'
-												)
-												setlogged(false)
-												navigation.navigate('Login')
-											}}
-										/>
+										<TouchableHighlight
+											style={{ marginLeft: 20 }}
+										>
+											<Button
+												title='Logout'
+												color={
+													Platform.OS == 'ios'
+														? 'white'
+														: '#BEAD8E'
+												}
+												onPress={async () => {
+													await AsyncStorage.removeItem(
+														'userData'
+													)
+													setlogged(false)
+													navigation.navigate('Login')
+												}}
+											/>
+										</TouchableHighlight>
 									</>
 								),
 							})}
@@ -137,4 +150,4 @@ const Routes = () => {
 	)
 }
 
-export default Routes
+export default Navigation

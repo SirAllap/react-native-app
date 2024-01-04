@@ -1,7 +1,7 @@
 import { Alert, Linking, SafeAreaView, Text, View } from 'react-native'
 import React from 'react'
 import { InfoProps } from '../interfaces/NavigationInterfaces'
-import { styles } from '../styles/styles'
+import { styles } from '../../styles/styles'
 
 const InfoScreen: React.FC<InfoProps> = () => {
 	return (

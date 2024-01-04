@@ -1,11 +1,12 @@
 import { Provider } from 'react-redux'
-import { store } from './store/store'
-import Routes from './Routes'
+
+import { store } from './src/store/store'
+import Navigation from './src/Navigation'
 
 const App = () => {
 	return (
 		<Provider store={store}>
-			<Routes />
+			<Navigation />
 		</Provider>
 	)
 }
