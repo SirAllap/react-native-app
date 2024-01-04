@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../../store/store'
-import { ILoginState } from '../../interfaces/SlicesInterfaces'
+import { ILoginState, IUserInfo } from '../../interfaces/SlicesInterfaces'
 import { userLogin } from './loginThunks'
 
 const initialState: ILoginState = {
-	data: { email: '', password: '' },
+	loginInfo: {} as IUserInfo,
 	status: 'idle',
 	error: null,
 }
@@ -12,7 +12,11 @@ const initialState: ILoginState = {
 const loginSlice = createSlice({
 	name: 'login',
 	initialState,
-	reducers: {},
+	reducers: {
+		resetState: (state) => {
+			state.status = 'idle'
+		},
+	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(userLogin.pending, (state, action) => {
@@ -22,9 +26,13 @@ const loginSlice = createSlice({
 				state.status = 'rejected'
 			})
 			.addCase(userLogin.fulfilled, (state, action) => {
+				state.loginInfo = action.payload.userInfo
 				state.status = 'fulfilled'
 			})
 	},
 })
 
 export default loginSlice.reducer
+
+export const selectLoginInfo = (state: RootState) => state.login.loginInfo
+export const initialLoginState = (state: RootState) => state.login.status
