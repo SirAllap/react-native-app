@@ -36,3 +36,4 @@ export default loginSlice.reducer
 
 export const selectLoginInfo = (state: RootState) => state.login.loginInfo
 export const initialLoginState = (state: RootState) => state.login.status
+export const { resetState } = loginSlice.actions
