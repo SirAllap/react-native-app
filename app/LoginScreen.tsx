@@ -13,16 +13,12 @@ import { styles } from '../styles/styles'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { LoginProps } from '../interfaces/NavigationInterfaces'
+import { ILogin } from '../interfaces/LoginInterfaces'
 
 const LoginScreen: FC<LoginProps> = ({ navigation }) => {
 	const [email, setEmail] = useState<string>('')
 	const [password, setPassword] = useState<string>('')
 	const [loading, setLoading] = useState<boolean>(false)
-
-	type ILogin = {
-		email: string
-		password: string
-	}
 
 	const loginUser = async (data: ILogin) => {
 		setLoading(true)
