@@ -4,66 +4,96 @@ import {
 	TextInput,
 	Pressable,
 	KeyboardAvoidingView,
-	Platform,
 	ActivityIndicator,
-	Alert,
-	Touchable,
 	TouchableOpacity,
-	Image,
+	Keyboard,
+	Alert,
 } from 'react-native'
 import React, { FC, useEffect, useState } from 'react'
 import { styles } from '../../styles/styles'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { LoginProps } from '../interfaces/NavigationInterfaces'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
-import {
-	initialLoginState,
-	selectLoginInfo,
-} from '../features/login/loginSlice'
-import { userLogin } from '../features/login/loginThunks'
 import Animated, { FadeInDown } from 'react-native-reanimated'
 
-const LoginScreen: FC<LoginProps> = ({ navigation }) => {
+const SignupScreen: FC<LoginProps> = ({ navigation }) => {
 	const dispatch = useAppDispatch()
-	const loginInitialState = useAppSelector(initialLoginState)
-	const loginInfo = useAppSelector(selectLoginInfo)
+	const [fullName, setFullName] = useState<string>('')
 	const [email, setEmail] = useState<string>('')
 	const [password, setPassword] = useState<string>('')
+	const [repeatedPassword, setRepeatedPassword] = useState<string>('')
+	const [message, setMessage] = useState<string>('')
 	const [loading, setLoading] = useState<boolean>(false)
+	const [keyboardStatus, setKeyboardStatus] = useState<string>('hided')
 
-	useEffect(() => {
-		if (loginInitialState === 'rejected') {
-			setLoading(false)
-		}
-		if (loginInitialState === 'pending') {
-			setLoading(true)
-		}
-		if (loginInitialState === 'fulfilled') {
-			navigation.navigate('Home')
-			setLoading(false)
-		}
-	}, [loginInitialState])
-
-	const authUser = async () => {
-		dispatch(userLogin({ email: email, password: password }))
+	const createUser = () => {
+		// dispatch(
+		// 	createNewUser({
+		// 		fullName: fullName,
+		// 		email: email,
+		// 		password: password,
+		// 	})
+		// )
+		Alert.alert('credential correct')
 	}
+
+	const validate = () => {
+		if (password !== repeatedPassword) {
+			setMessage('Passwords do not match')
+			return false
+		} else {
+			setMessage('')
+			return createUser()
+		}
+	}
+
+	Keyboard.addListener('keyboardDidShow', () => {
+		setKeyboardStatus('shown')
+	})
+
+	Keyboard.addListener('keyboardDidHide', () => {
+		setKeyboardStatus('hided')
+	})
 
 	return (
 		<SafeAreaView style={styles.container}>
 			<View style={styles.loginContainer}>
-				<KeyboardAvoidingView
-					behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
-				>
+				<KeyboardAvoidingView behavior='padding'>
 					<Animated.View
 						entering={FadeInDown.duration(1000).springify()}
 						style={{ height: 100 }}
 					>
-						<Text style={styles.tableTitle}>Welcome</Text>
+						<Text style={styles.tableTitle}>Sign Up</Text>
 					</Animated.View>
 					{loading ? (
 						<ActivityIndicator size='large' color='#BEAD8E' />
 					) : (
 						<View style={{ gap: 20 }}>
+							<Animated.View
+								entering={FadeInDown.delay(200)
+									.duration(1000)
+									.springify()}
+							>
+								<Text
+									nativeID='inputName'
+									style={styles.inputLabel}
+								>
+									Full name:
+								</Text>
+								<TextInput
+									style={styles.inputStyle}
+									onChangeText={setFullName}
+									value={fullName}
+									placeholder='E.g: David Pallarés Robaina'
+									placeholderTextColor='#a5a4a4'
+									accessibilityLabel='input'
+									accessibilityLabelledBy='inputName'
+									keyboardType='default'
+									textContentType='name'
+									autoComplete='name'
+									autoCorrect={false}
+								/>
+							</Animated.View>
 							<Animated.View
 								entering={FadeInDown.delay(200)
 									.duration(1000)
@@ -86,7 +116,6 @@ const LoginScreen: FC<LoginProps> = ({ navigation }) => {
 									keyboardType='email-address'
 									textContentType='emailAddress'
 									autoComplete='email'
-									autoFocus
 									autoCapitalize='none'
 									autoCorrect={false}
 								/>
@@ -116,6 +145,39 @@ const LoginScreen: FC<LoginProps> = ({ navigation }) => {
 								/>
 							</Animated.View>
 							<Animated.View
+								entering={FadeInDown.delay(400)
+									.duration(1000)
+									.springify()}
+							>
+								<Text
+									nativeID='inputPassword'
+									style={styles.inputLabel}
+								>
+									Repeat password:
+								</Text>
+								<TextInput
+									style={styles.inputStyle}
+									onChangeText={setRepeatedPassword}
+									value={repeatedPassword}
+									secureTextEntry={true}
+									placeholder='E.g: 1234567890'
+									placeholderTextColor='#a5a4a4'
+									accessibilityLabel='input'
+									accessibilityLabelledBy='inputPassword'
+									textContentType='password'
+									autoCapitalize='none'
+								/>
+							</Animated.View>
+							<Text
+								style={{
+									color: 'red',
+									fontSize: 20,
+									fontWeight: 'bold',
+								}}
+							>
+								{message}
+							</Text>
+							<Animated.View
 								entering={FadeInDown.delay(600)
 									.duration(1000)
 									.springify()}
@@ -129,11 +191,14 @@ const LoginScreen: FC<LoginProps> = ({ navigation }) => {
 										color: 'white',
 									}}
 								>
-									Don't have an account?{' '}
+									Already have an account?{' '}
 								</Text>
 								<TouchableOpacity
 									onPress={() => {
-										navigation.push('SignUp')
+										navigation.push('Login', {
+											email: email,
+											password: password,
+										})
 									}}
 								>
 									<Text
@@ -142,7 +207,7 @@ const LoginScreen: FC<LoginProps> = ({ navigation }) => {
 											fontWeight: 'bold',
 										}}
 									>
-										Sign Up
+										Log In
 									</Text>
 								</TouchableOpacity>
 							</Animated.View>
@@ -151,11 +216,11 @@ const LoginScreen: FC<LoginProps> = ({ navigation }) => {
 				</KeyboardAvoidingView>
 			</View>
 			<Pressable
-				onPress={() => {
-					authUser()
-				}}
+				onPress={validate}
 				style={
-					!(email.length >= 5 && password.length >= 5)
+					keyboardStatus === 'shown'
+						? styles.buttonNone
+						: !(email.length >= 5 && password.length >= 5)
 						? styles.buttonDisabled
 						: styles.buttonStyle
 				}
@@ -163,10 +228,10 @@ const LoginScreen: FC<LoginProps> = ({ navigation }) => {
 					!(email.length >= 5 && password.length >= 5) ? true : false
 				}
 			>
-				<Text style={styles.buttonText}>Login</Text>
+				<Text style={styles.buttonText}>Sign Up</Text>
 			</Pressable>
 		</SafeAreaView>
 	)
 }
 
-export default LoginScreen
+export default SignupScreen

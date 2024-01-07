@@ -20,6 +20,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useAppSelector } from './store/hooks'
 import { initialLoginState } from './features/login/loginSlice'
 import { useDispatch } from 'react-redux'
+import SignupScreen from './app/SignupScreen'
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
@@ -85,14 +86,22 @@ const Navigation = () => {
 				})}
 			>
 				{!logged ? (
-					<Stack.Screen
-						name='Login'
-						component={LoginScreen}
-						options={{
-							title: 'Login',
-							headerTitleAlign: 'center',
-						}}
-					/>
+					<>
+						<Stack.Screen
+							name='Login'
+							component={LoginScreen}
+							options={{
+								headerShown: false,
+							}}
+						/>
+						<Stack.Screen
+							name='SignUp'
+							component={SignupScreen}
+							options={{
+								headerShown: false,
+							}}
+						/>
+					</>
 				) : (
 					<>
 						<Stack.Screen

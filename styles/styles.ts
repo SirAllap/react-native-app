@@ -31,10 +31,7 @@ export const styles = StyleSheet.create({
 	},
 	loginContainer: {
 		flex: 1,
-		alignContent: 'center',
 		justifyContent: 'center',
-		gap: 30,
-		height: 100,
 		width: '90%',
 	},
 	text: {
@@ -91,6 +88,9 @@ export const styles = StyleSheet.create({
 		borderRadius: Platform.OS == 'ios' ? 40 : 5,
 		backgroundColor: 'gray',
 		opacity: 0.5,
+	},
+	buttonNone: {
+		display: 'none',
 	},
 	buttonText: {
 		fontSize: 16,

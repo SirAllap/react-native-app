@@ -5,6 +5,7 @@ import {
 
 export type RootStackParamList = {
 	Login: { email: string; password: string }
+	SignUp: undefined
 	Home: undefined
 	CheckInScreen: {
 		checkInRef: string
